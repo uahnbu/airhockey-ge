@@ -5,7 +5,7 @@ class Population {
     this.test = 0;
     this.best = null;
     this.bestFitness = 0;
-    this.maxIteration = 200;
+    this.maxIteration = 100;
     this.iteration = 0;
     this.restart();
   }
@@ -29,7 +29,7 @@ class Population {
     const wolfX = Pixie.rand(m + paddleR, w - m - paddleR);
     const wolfY = Pixie.rand(h / 2 + paddleR, h - m - paddleR);
     const carrotX = Pixie.rand(m + puckR, w - m - puckR);
-    const carrotY = Pixie.rand(m + puckR, h / 4);
+    const carrotY = Pixie.rand(m + puckR, h / 2 - puckR);
     let halted = 0;
     for (let i = 0; i < this.zoos.length; i++) {
       const zoo = this.zoos[i];
@@ -56,7 +56,7 @@ class Population {
     const brains = this.zoos.map(zoo => zoo.hare.brain.copy());
     const counter = Array(this.zoos.length + 1).fill(0);
     
-    const indexes = Array(this.zoos.length + 1).fill().map((_, i) => i);
+    const indexes = Array(this.zoos.length).fill().map((_, i) => i);
     const fitnesses = this.zoos.map(zoo => zoo.score);
     chart.data.datasets[0].data = [...fitnesses].concat(this.bestFitness);
     this.quickDescending(fitnesses, indexes);
@@ -66,6 +66,7 @@ class Population {
       this.best = brains[indexes[0]];
     }
     fitnesses[fitnesses.length] = this.bestFitness;
+    indexes[fitnesses.length - 1] = this.zoos.length;
     brains[brains.length] = this.best;
     
     const pool = fitnesses.reduce((sum, fitness) => sum + fitness);
@@ -73,7 +74,7 @@ class Population {
       const index = indexes[this.grab(pool, fitnesses)];
       counter[index]++;
       const newBrain = brains[index].copy();
-      newBrain.mutate(0.1);
+      newBrain.mutate(0.3);
       zoo.hare.brain = newBrain;
       zoo.score = 0;
       zoo.halted = false;
@@ -86,7 +87,7 @@ class Population {
   
   grab(pool, fitnesses) {
     let net = Math.random() * pool | 0;
-    let i; for (i = 0; i < fitnesses.length && net >= 0; net -= fitnesses[i++]) {}
+    let i = 0; do {} while (i < fitnesses.length && (net -= fitnesses[i++]) >= 0);
     return i - 1;
   }
   

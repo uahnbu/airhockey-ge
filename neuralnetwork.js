@@ -49,9 +49,9 @@ class NeuralNetwork {
     d = Matrix.sum(a3, 'row');
     a3.div(d);
 
-    let out = Array(a2.data.length);
-    for (let i = a2.data.length - 1; i >= 0; i--) {
-      out[i] = a2.data[i][0];
+    let out = Array(a3.data.length);
+    for (let i = a3.data.length - 1; i >= 0; i--) {
+      out[i] = a3.data[i][0];
     }
     return out;
   }

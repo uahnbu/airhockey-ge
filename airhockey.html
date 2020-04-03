@@ -38,6 +38,9 @@ const r = w * 0.1;
 const g = w * 0.4;
 const s = 5;
 
+document.querySelector('canvas:nth-of-type(2)').style.display = 'inline';
+document.querySelector('canvas:nth-of-type(2)').width = h;
+document.querySelector('canvas:nth-of-type(2)').height = h;
 const chart = new Chart(document.querySelector('canvas:nth-of-type(2)'), {
   type: 'bar',
   data: {
@@ -53,7 +56,7 @@ const chart = new Chart(document.querySelector('canvas:nth-of-type(2)'), {
         color: '#8e44ad'
       }
     ],
-    labels: Array(101).fill().map((_, i) => i)
+    labels: Array(501).fill().map((_, i) => i)
   },
   options: {
     title: { display: true },
@@ -64,9 +67,8 @@ const chart = new Chart(document.querySelector('canvas:nth-of-type(2)'), {
     tooltips: { enabled: false }
   }
 });
-document.querySelector('canvas:nth-of-type(2)').style.display = 'inline';
 
-const population = new Population(100);
+const population = new Population(500);
 
 (room.loop = () => {
   room.fillStyle = '#222f3e';

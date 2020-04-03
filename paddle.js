@@ -11,7 +11,7 @@ class Paddle {
     });
     this.radius = room.width * 0.1;
     Pixie.addCircle(this.body, this.radius);
-    this.brain = new NeuralNetwork(12, 16, 1);
+    this.brain = new NeuralNetwork(12, 20, 4);
   }
   
   step(wolf, carrot) {
@@ -22,14 +22,14 @@ class Paddle {
       wolf.body.getLinearVelocity().x, wolf.body.getLinearVelocity().y,
       carrot.body.getPosition().x, carrot.body.getPosition().y,
       carrot.body.getLinearVelocity().x, carrot.body.getLinearVelocity().y,
-    ])[0];
-    this.body.applyForceToCenter(Pixie.vec(2e5 * Math.cos(prediction), 2e5 * Math.sin(prediction)));
-//    switch (prediction.indexOf(Math.max(...prediction))) {
-//      case 0: this.body.applyForceToCenter(Pixie.vec(-2 * 10e4, 0), true); break;
-//      case 1: this.body.applyForceToCenter(Pixie.vec(0, -2 * 10e4), true); break;
-//      case 2: this.body.applyForceToCenter(Pixie.vec(2 * 10e4, 0), true); break;
-//      case 3: this.body.applyForceToCenter(Pixie.vec(0, 2 * 10e4), true);
-//    }
+    ]);
+    // this.body.applyForceToCenter(Pixie.vec(2e5 * Math.cos(prediction), 2e5 * Math.sin(prediction)));
+    switch (prediction.indexOf(Math.max(...prediction))) {
+      case 0: this.body.applyForceToCenter(Pixie.vec(-2 * 10e4, 0), true); break;
+      case 1: this.body.applyForceToCenter(Pixie.vec(0, -2 * 10e4), true); break;
+      case 2: this.body.applyForceToCenter(Pixie.vec(2 * 10e4, 0), true); break;
+      case 3: this.body.applyForceToCenter(Pixie.vec(0, 2 * 10e4), true);
+    }
   }
   
   draw(opacity) {
